@@ -161,8 +161,9 @@ at32ap_cpu_bootstrap:
 
 	.align	2
 1:	.long	at32ap_low_level_init
+/*
 	.size	_start, . - _start
-
+*/
 	/* Common CPU bootstrap code after oscillator/cache/etc. init */
 	.section .text.avr32ap_low_level_init, "ax", @progbits
 	.global	at32ap_low_level_init
@@ -176,6 +177,7 @@ at32ap_low_level_init:
 3:	rsub	r6, pc
 
 	/* Let's go */
+	eor	r12, r12
 	rjmp	board_init_f
 
 	.align	2
