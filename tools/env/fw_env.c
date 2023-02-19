@@ -1433,15 +1433,21 @@ static int get_config (char *fname)
 		if (dump[0] == '#')
 			continue;
 
-		rc = sscanf (dump, "%ms %lx %lx %lx %lx",
-			     &devname,
+		devname = malloc(256);
+		if (!devname)
+			return -ENOMEM;
+
+		rc = sscanf (dump, "%s %lx %lx %lx %lx",
+			     devname,
 			     &DEVOFFSET (i),
 			     &ENVSIZE (i),
 			     &DEVESIZE (i),
 			     &ENVSECTORS (i));
 
-		if (rc < 3)
+		if (rc < 3) {
+			free(devname);
 			continue;
+		}
 
 		DEVNAME(i) = devname;
 
